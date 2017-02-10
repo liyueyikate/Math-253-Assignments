@@ -1,2 +1,14 @@
 # Topic 1 Exercises
 
+
+2.4.1
+(1)flexible method better. We have enough training data.\
+(2)inflexible method better. Not enough training data. flexible method can overfitting the data.\
+(3)flexible method better.\
+(d)inflexible method better. Flexible method might overfit to the errors.\
+
+2.4.2
+
+(1) Regression; inference;  n=500 and p=3 \
+(2) Classification; prediction;n=20 and p=13 \
+
