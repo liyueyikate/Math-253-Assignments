@@ -54,7 +54,7 @@ Higher K leads the decision boundary to being linear. Lower K can fit more irreg
 
 ```{r}
 if(!file.exists("~/College.csv")){
-    URL <- getURL("http://www-bcf.usc.edu/~gareth/ISL/College.csv")
+    URL <- RCurl::getURL("http://www-bcf.usc.edu/~gareth/ISL/College.csv")
     college <- read.csv(textConnection(URL), header = T)
     rm(URL)
 }
