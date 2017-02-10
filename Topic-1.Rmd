@@ -1,14 +1,49 @@
 # Topic 1 Exercises
 
 
-2.4.1
+2.4.1\
 (1)flexible method better. We have enough training data.\
 (2)inflexible method better. Not enough training data. flexible method can overfitting the data.\
-(3)flexible method better.\
+(3)flexible method better.Non-linear\
 (d)inflexible method better. Flexible method might overfit to the errors.\
 
-2.4.2
-
+2.4.2\
 (1) Regression; inference;  n=500 and p=3 \
 (2) Classification; prediction;n=20 and p=13 \
+(3)Regression; prediction; n=52 and p=3
+
+
+2.4.3
+(1)
+(2) Training error declines monotonically as flexibility increases: as we increase parameters to explain the dependent variable, the function fits the training data more closely. \
+As flexibility increases, test error declines at first and then starts to increase again: at first larger increasing flexibility leads to more accurate function but then the function would overfitting the data.\
+As we use more flexible methods, the variance will increase. Variance refers to the amount by wich our functon would change if we estimated it with another training data set. A very flexible method suggests that the function fit closely with the training data so if we change the training data, the function would change correspondingly, resulting in a big variance. \
+Bias will decrease. Bias refers to the error that is introduced by approximating a real-life problem by a much simpler model. There's a trade off between variance and bias. So because variance increases, bias decreases.\
+The irreducible error is a constant. Different methods do not change irreducible errors. 
+
+
+
+2.6
+Parametric methods involve a two-step model based approach: first make ansauumption aboutht efunctional form. Then we use the training data to fit or train the model. Parametric methods reduces the problem of estimating f down to one of estimating a set of parameters. \
+Non-parametric methods do not make explicit assumptions about the functional form of f. They seek an estimate of f that gets as close to the data point as possible without being too rough or wiggly. \
+Advantages are they can reduce the problem of estimating f to a small number of parameters; do not need a very large number of observations. \
+Disadvantages are are they cannot accurately fit a wider range of possible shapes for f. Any parametric aprroach brings with it the possibility that the functional form used to estimate f is very different from the true f, in which case the resulting model will not fit the data well.\
+
+
+2.7
+(a)
+1:3
+2:2
+3:$\sqrt{10}$
+
+
+
+
+
+
+
+
+
+
+
 
