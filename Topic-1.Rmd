@@ -100,15 +100,72 @@ boxplot(college$Outstate ~ college$Elite, main = "Outstate versus Elite", xlab =
 ```
 78 ellite colleges.
 
-2.9
 ```{r}
-
+par(mfcol = c(2, 2))
+hist(college$Accept, breaks = 8, freq = TRUE, col = "blue", main = "Histogram", xlab = "Accept", ylab = "Value")
+hist(college$Accept, breaks = 12, freq = TRUE, col = "green", main = "Histogram", xlab = "Accept", ylab = "Value")
+hist(college$Enroll, breaks = 4, freq = TRUE, col = "blue", main = "Histogram", xlab = "Enroll", ylab = "Value")
+hist(college$Enroll, breaks = 6, freq = TRUE, col = "green", main = "Histogram", xlab = "Enroll", ylab = "Value")
 ```
 
+```{r}
+pairs(college[, 2:3])
+```
+Number of applications are positively correlated with number of enrollment.
 
 
+2.9
+```{r}
+auto_file_name<-"/home/local/MAC/yli5/math253-assignment/Auto.csv"
+auto<-read.csv(auto_file_name)
+Auto <- na.omit(auto)
+```
+
+(a)
+```{r}
+str(Auto)
+```
+
+horsepower and name are categorical variables and the rest are quantitative. 
 
 
+```{r}
+summary(Auto)
+```
+mpg:(9,46); Mean   :23.52\
+cylinders(3,8); Mean   :5.458\
+displacement(68,455); Mean   :193.5\
+weight(1613,5140);Mean   :2970 \
+acceleration(8,24)； Mean   :15.56\
+year (70,82)；Mean   :75.99\
+ origin (1,3)； Mean   :1.574  
+ 
+ 
+```{r}
+sd(Auto$mpg)
+sd(Auto$cylinders)
+sd(Auto$displacement)
+sd(Auto$weight)
+sd(Auto$acceleration)
+sd(Auto$year)
+sd(Auto$origin)
+```
+```{r}
+sub<-Auto[-c(10:58),-c(4,9)]
+sapply(sub,mean)
+sapply(sub,sd)
+sapply(sub,range)
+```
+(e)
+```{r}
+auto$cylinders <- as.factor(auto$cylinders)
+auto$year <- as.factor(auto$year)
+auto$origin <- as.factor(auto$origin)
+pairs(auto)
+```
+
+displacement and weight are linearly correlated.
 
 
-
+(f)
+cylinder, horsepower and year.
