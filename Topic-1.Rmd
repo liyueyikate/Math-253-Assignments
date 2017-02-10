@@ -35,10 +35,75 @@ Disadvantages are are they cannot accurately fit a wider range of possible shape
 1:3
 2:2
 3:$\sqrt{10}$
+4:$\sqrt{5}$
+5:$\sqrt{2}$
+6:$\sqrt{3}$  \
+(b)
+Green
+
+(c)
+Red
+red:$\frac{1}{3}(1+0+1)=\frac{2}{3}$
+green:$\frac{1}{3}(0+1+0)=\frac{1}{3}$
+It's red.
+(d)
+Small.
+Higher K leads the decision boundary to being linear. Lower K can fit more irregular data like this.
+
+2.8
+
+```{r}
+if(!file.exists("~/College.csv")){
+    URL <- getURL("http://www-bcf.usc.edu/~gareth/ISL/College.csv")
+    college <- read.csv(textConnection(URL), header = T)
+    rm(URL)
+}
 
 
+```
 
 
+```{r}
+rownames(college)=college[,1]
+college=college [,-1]
+```
+
+
+(c)
+```{r}
+summary(college)
+```
+
+```{r}
+pairs(college[, 1:10])
+```
+
+
+```{r}
+boxplot(college$Outstate ~ college$Private, , main = "Outstate versus Private",  xlab = "Private", ylab = "Outstate")
+
+```
+
+```{r}
+Elite=rep("No",nrow(college))
+Elite[college$Top10perc >50]="Yes"
+Elite=as.factor(Elite)
+college=data.frame(college ,Elite)
+```
+
+
+```{r}
+E=rep("a",nrow(college))
+E[college$Top10perc >50]="Yes"
+summary(college$Elite)
+boxplot(college$Outstate ~ college$Elite, main = "Outstate versus Elite", xlab = "Elite", ylab = "Outstate")
+```
+78 ellite colleges.
+
+2.9
+```{r}
+
+```
 
 
 
