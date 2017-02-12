@@ -15,6 +15,14 @@
 
 2.4.3
 (1)
+
+![Image for error](IMG_0085.JPG)
+
+
+
+
+
+
 (2) Training error declines monotonically as flexibility increases: as we increase parameters to explain the dependent variable, the function fits the training data more closely. \
 As flexibility increases, test error declines at first and then starts to increase again: at first larger increasing flexibility leads to more accurate function but then the function would overfitting the data.\
 As we use more flexible methods, the variance will increase. Variance refers to the amount by wich our functon would change if we estimated it with another training data set. A very flexible method suggests that the function fit closely with the training data so if we change the training data, the function would change correspondingly, resulting in a big variance. \
