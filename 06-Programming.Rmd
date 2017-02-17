@@ -11,7 +11,6 @@ scoreActivity::score253(6)
 ```
 
 task1
-
 ```{r}
 
 make_one_bar <- function(point) {
