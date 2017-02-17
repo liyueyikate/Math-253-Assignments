@@ -1,2 +1,140 @@
 # Topic 2 Exercises: Linear Regression
 
+
+3.6
+```{r}
+data(Boston,package='MASS')
+#View(Boston)
+names(Boston)
+```
+
+```{r}
+attach(Boston)
+lm.fit=lm(medv~lstat )
+summary(lm.fit)
+names(lm.fit)
+confint(lm.fit)
+```
+```{r}
+predict(lm.fit,data.frame(lstat=(c(5,10,15))), interval="confidence")
+predict(lm.fit,data.frame(lstat=(c(5,10,15))), interval ="prediction")
+```
+```{r}
+plot(lstat ,medv)
+abline(lm.fit)
+```
+```{r}
+plot(lstat ,medv)
+abline(lm.fit)
+abline(lm.fit,lwd=3)
+ abline(lm.fit,lwd=3,col="red") > plot(lstat,medv,col="red")
+plot(lstat,medv,pch=20)
+ plot(lstat,medv,pch="+")
+plot(1:20,1:20,pch=1:20)
+```
+3.7.13
+```{r}
+set.seed(1)
+```
+(ab)
+```{r}
+x=rnorm(100,0,1)
+eps=rnorm(100,0,0.5)
+```
+(c)
+```{r}
+y <- -1 + 0.5 * x + eps
+length(y)
+```
+$\beta_0=-1, \beta_1=0.5$
+(d)
+
+```{r}
+plot(x,y)
+```
+
+```{r}
+model1=lm(y~x)
+summary(model1)
+```
+
+
+```{r}
+plot(x,y)
+abline(model1,col='red')
+abline(-1, 0.5, col = "yellow")
+legend("topleft", c("Least square", "Regression"), col = c("red", "yellow"), lty = c(1, 1))
+```
+
+
+
+
+```{r}
+model2=lm(y~x+I(x^2))
+summary(model2)
+```
+
+p-value higher than 0.05 so x^2 is not significant.
+```{r}
+set.seed(1)
+eps2 <- rnorm(100, sd = 0.125)
+x2 <- rnorm(100)
+y2 <- -1 + 0.5 * x2 + eps2
+plot(x2, y2)
+model3 <- lm(y2 ~ x2)
+summary(model3)
+abline(model3, col = "red")
+abline(-1, 0.5, col = "yellow")
+legend("topleft", c("Least square", "Regression"), col = c("red", "yellow"), lty = c(1, 1))
+```
+Noise is decreased after I decrease variance. I get a higher r^2 and much lower RSE. The two lines are more closer.
+
+
+
+```{r}
+set.seed(1)
+eps3 <- rnorm(100, sd = 0.8)
+x3 <- rnorm(100)
+y3 <- -1 + 0.5 * x3 + eps3
+plot(x3, y3)
+model4 <- lm(y3 ~ x3)
+summary(model4)
+abline(model4, col = "red")
+abline(-1, 0.5, col = "yellow")
+legend("topleft", c("Least square", "Regression"), col = c("red", "yellow"), lty = c(1, 1))
+```
+Noise increases after I increase variance. I get a lower r^2 and much higher RSE. The two lines are more away from each other.
+
+```{r}
+confint(model1)
+confint(model3)
+confint(model4)
+```
+
+As the noise increases, the confidence intervals become larger. With less noise, it's easier to predict.\
+3.7.3
+(a)
+$$male=50+20GPA+0.07IQ+0.01GPA×IQ$$
+$$female=85+10GPA+0.07IQ+0.01GPA×IQ$$
+ 
+If GPA is higher than 3.5, male has higher salary; otherwise female has higher salary.
+iii is correct.\
+
+(b)
+$female=85+10GPA+0.07IQ+0.01GPA×IQ=137.1$\
+(c)
+we need to look at p-value of t test or F test to see if it's significant.
+
+
+3.7.4
+(a)
+We don't have enough information. I expect the linear regression to have lower RSS because the true relationship is linear.\
+
+(b)
+We don't have enough information. I expect the linear regression to have lower test error as the polynomial may overfit the data.\
+(c)
+Training error declines monotonically as flexibility increase. So polynomial has higher error.\
+(d)
+We don't have enough information. We don't know if it's closer to linear or cubic.
+
+
