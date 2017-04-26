@@ -9,3 +9,90 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(16)
 ```
+
+
+
+```{r}
+my_knots=function(x,k){
+  quantile(x,(1:k)/(k+1))
+}
+```
+
+
+
+
+```{r}
+
+
+spline_model_matrix=function(x, knot_locations){
+  MM <- cbind(1, x, x^2, x^3)
+  for(i in knot_locations){
+    new_vector=ifelse(x>i,(x-i)^3,0)
+    MM <- cbind(MM,new_vector)
+  }
+  return(MM)
+}
+
+
+```
+
+
+```{r}
+spline_coefs <- coef(lm(y ~ MM))
+```
+
+```{r}
+ fit_spline <- function(formula, k=2, data=parent.frame()) {
+  y <- eval(formula[[2]], envir=data)
+  x <- eval(formula[[3]], envir=data)
+  knot_locations <- my_knots(x, k)
+  MM <- spline_model_matrix(x, knot_locations)
+  mod <- lm(y ~ MM - 1)
+  rse=mean((resid(mod))^2)
+  res <- list(coef = coef(mod), knots = knot_locations, cov = vcov(mod),rse=rse)
+  class(res) <- "my_spline"
+  
+  return(res)
+ }
+
+
+```
+
+
+
+```{r}
+predict.my_spline <- 
+  function(mod, newx, level = 0.95,
+           intervals=c("none", "confidence", "prediction")) {
+  intervals <- match.arg(intervals)
+  MM <- spline_model_matrix(newx, mod$knots)
+  vals <- MM %*% mod$coef
+  se <- sqrt(rowSums(MM %*% mod$cov * MM))
+  if (intervals == "none") return(vals)
+  else if(intervals == "confidence"){
+    vals=vals
+    upper=vals+2*se
+    lower=vals-2*se
+    return(cbind(vals,upper,lower))
+  }else if (intervals == "prediction"){
+    se=sqrt(se^2 + mod$rse^2)
+     vals=vals
+    upper=vals+2*se
+    lower=vals-2*se
+    return(cbind(vals,upper,lower))
+  }
+}
+```
+
+```{r}
+library(ISLR)
+data("Wage")
+
+#testnum=floor(runif(1500, min=1, max=3001))
+test=Wage[testnum,]
+training=Wage[-testnum,]
+modkate=fit_spline(wage~age,k=5,data=training)
+predict.my_spline(modkate,training$age,intervals="prediction")
+
+```
+

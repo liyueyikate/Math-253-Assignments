@@ -9,3 +9,13 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(14)
 ```
+
+
+```{r}
+#reqire(glmnet)
+mod0=lm(wage~educ+sector,data = CPS85)
+mod2=lm(wage~poly(educ,3)*sector,data = CPS85)
+sqrt(mosaic::rsquared(mod2))
+cv_pred_error(mod0)
+```
+

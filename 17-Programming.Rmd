@@ -9,3 +9,56 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(17)
 ```
+
+```{r}
+#library(tree)
+Cartoon_data <- data.frame(
+x = 1:8,
+y = c(2,5,1,3,8,5,4,6),
+class = c("A", "B", "A", "A", "B", "B", "A", "B")
+)
+```
+
+```{r}
+pure=tree.control(8, mincut = 0, minsize = 1, mindev = 0)
+```
+
+
+```{r}
+rtree_pure=tree(y ~ x, data=Cartoon_data,control=pure)
+plot(rtree_pure)
+text(rtree_pure)
+```
+
+```{r}
+ctree_pure <- tree(class ~ x, data=Cartoon_data, control = pure)
+plot(ctree_pure)
+text(ctree_pure)
+```
+
+
+
+```{r}
+predict(rtree_pure, newdata = data.frame(x = 3))
+print(ctree_pure)
+```
+
+```{r}
+rtree_5 <- prune.tree(rtree_pure, best = 5)
+plot(rtree_5)
+ctree_2 <- prune.misclass(ctree_pure, best = 2)
+plot(ctree_2)
+```
+
+
+```{r}
+pure_for_cps <- tree.control(nrow(mosaicData::CPS85), mincut = 0, minsize = 1, mindev = 0)
+Sector_classifier <- tree(sector ~ wage + sex + educ + exper,
+data = mosaicData::CPS85,control = pure_for_cps)
+```
+```{r}
+aaa <- prune.misclass(Sector_classifier, best = 20)
+plot(aaa)
+text(aaa)
+```
+
