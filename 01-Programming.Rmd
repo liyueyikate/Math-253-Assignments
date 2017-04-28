@@ -18,6 +18,7 @@ task 2
 
 task 3
 ```{r}
+library(mosaicData)
 data(Galton)
 task3a=colnames(Galton)
 task3b=nrow(Galton)
@@ -32,6 +33,11 @@ task4=rbind(row1,row2)
 ```
 
 task 5
-```
-
+```{r}
+task5x=runif(1000,0,1)
+task5y=runif(1000,0,1)
+task5pi=sqrt(task5x^2+task5y^2)
+a=rep(0,1000)
+a[task5pi<=1]=1
+sum(a)/1000-pi/4
 ```
