@@ -63,3 +63,36 @@ Y_train<-Train_data$Yield
 fhat_train<-predict(Yield_mod1,newdata=Train_data)
 ```
 
+```{r}
+ MSE_train=mean((fhat_train-Y_train)^2)
+```
+
+
+Task 5
+
+```{r}
+Yield_mod2 <- lm(Yield ~ Top10perc + Outstate + Expend,
+                 data=Test_data)
+
+```
+
+
+Task 5
+
+```{r}
+Y_test<-Test_data$Yield
+```
+
+```{r}
+fhat_test<-predict(Yield_mod2,newdata=Test_data)
+```
+
+```{r}
+ MSE_test=mean((fhat_test-Y_test)^2)
+```
+
+```{r}
+MSE_test/MSE_train
+
+```
+
