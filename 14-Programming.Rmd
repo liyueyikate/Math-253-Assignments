@@ -12,10 +12,63 @@ scoreActivity::score253(14)
 
 
 ```{r}
-#reqire(glmnet)
-mod0=lm(wage~educ+sector,data = CPS85)
-mod2=lm(wage~poly(educ,3)*sector,data = CPS85)
-sqrt(mosaic::rsquared(mod2))
-cv_pred_error(mod0)
+require(glmnet)
+GenCont <- read.csv("http://tiny.cc/dcf/GenCont.csv")
+#mod0=lm(wage~educ+sector,data = CPS85)
+#mod2=lm(wage~poly(educ,3)*sector,data = CPS85)
+#sqrt(mosaic::rsquared(mod2))
+#cv_pred_error(mod0)
+```
+```{r}
+compare_ols_ridge <- function(responses, predictors, lambda=1){
+  # your statements will go here
+  n=length(responses)
+  t=sort(sample((1:n),round(n/2)))
+  predictors=as.matrix(predictors)
+  trainingR=responses[t]
+  testingR=responses[-t]
+  trainingP=predictors[t,]
+  testingP=predictors[-t,]
+   
+   
+   modL=lm(trainingR~trainingP)
+   print("success linear")
+   train_ridge=model.matrix(trainingR~trainingP)
+   test_ridge=model.matrix(testingR~testingP)
+   modRidge=glmnet(train_ridge,trainingR,alpha = 0,lambda=lambda)
+   
+   print("success ridge")
+   
+   ## in 
+   lmpred=predict(modL,newdata = as.data.frame(trainingP))
+   ols_in=mean((lmpred-trainingR)^2)
+   
+   print("success linear pred")
+   
+   ridgepred=predict(modRidge,newx = train_ridge)
+   ridge_in=mean((ridgepred-trainingR)^2)
+   
+   print("success ridge pred")
+   
+   ## out
+   
+   lmpred2=predict(modL,newdata=as.data.frame(testingP))
+   ols_out=mean((lmpred2-testingR)^2)
+   
+   ridgepred2=predict(modRidge, newx = test_ridge)
+   ridge_out=mean((ridgepred-testingR)^2)
+   
+  return(list(ols_in=ols_in,ols_out=ols_out,ridge_out=ridge_out,ridge_in=ridge_in,lambda = 1 ))
+}
+```
+
+
+[,1]+trainingP[,2]+trainingP[,3]+trainingP[,4]+trainingP[,5]+trainingP[,6]+trainingP[,7]+trainingP[,8]+trainingP[,9]+trainingP[,10]+trainingP[,11]+trainingP[,12]
+```{r}
+responses=GenCont$Phenotypes
+predictors=GenCont[,2:13]
+Shrink_results=compare_ols_ridge(responses,predictors)
+
+
 ```
 
