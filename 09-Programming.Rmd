@@ -9,3 +9,29 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(9)
 ```
+
+```{r}
+poker_deck <- c(outer((10 * 2:14), 1:4, '+'))
+```
+
+```{r}
+suit=function(card){
+ card %% 10
+}
+rank=function(card){
+  card %/% 10
+}
+```
+
+```{r}
+is_royal_flush=function(hand){
+  a=ifelse(rank(hand)>=10 & all(suit(hand)==suit(hand)[a]),TRUE,FALSE)
+}
+```
+
+
+
+
+
+
+

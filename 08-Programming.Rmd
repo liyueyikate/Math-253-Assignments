@@ -9,3 +9,69 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(8)
 ```
+
+Task1
+```{r}
+xdata=runif(100,20,70)
+My_data=data.frame(xdata,y=5+3*xdata + 2*rnorm(100))
+plot(My_data$x,My_data$y)
+My_data
+```
+
+```{r}
+LL_line=function(params){
+  m=params[1]
+  b=params[2]
+  sigma=params[3]
+  sum(log(dnorm(y - (m * x + b), sd = sigma)))
+}
+```
+
+```{r}
+A=cbind(3,5,2)
+B=cbind(4,1,10)
+testA=LL_line(A)
+testB=LL_line(B)
+testA
+testB
+```
+
+
+
+```{r}
+starting_params <- c(4, 1, 10)
+best<-optim(starting_params, LL_line, control=list(fnscale = -1))
+```
+
+Task 2
+```{r}
+load(url("http://tiny.cc/dcf/Taxi_trips.rda"))
+```
+
+```{r}
+taxi_likelihood=function(ArgVec){
+   m=ArgVec[1]
+  b=ArgVec[2]
+  sigma=ArgVec[3]
+  sum(log(dexp(y - (m * x + b), rate= sigma)))
+  best=optim(starting_params, LL_line, control=list(fnscale = -1))
+  return(best)
+}
+a=cbind(2,4,1/3)
+taxi_likelihood(a)
+```
+
+```{r}
+plot(Taxi_trips$trip_distance,Taxi_trips$fare_amount)
+```
+
+
+
+
+
+
+
+
+
+
+
