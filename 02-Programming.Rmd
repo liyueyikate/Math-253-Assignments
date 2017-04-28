@@ -15,8 +15,9 @@ scoreActivity::score253(2)
 Tasks1
 
 ```{r}
-#download.file("http://www-bcf.usc.edu/~gareth/ISL/Auto.csv",destfile="Auto.csv")
+download.file("http://www-bcf.usc.edu/~gareth/ISL/Auto.csv",destfile="Auto.csv")
 ```
+
 ```{r}
 auto_file_name<-"/home/local/MAC/yli5/math253-assignment/Auto.csv"
 ```

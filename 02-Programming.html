@@ -140,7 +140,7 @@ $(document).ready(function () {
 ## ERROR when running  check(TRUE, task5top[5, 3] == Auto[5, 3])
 ## ERROR when running  check(TRUE, task5bottom[5, 3] == Auto[nrow(Auto), ncol(Auto)])</code></pre>
 <p>Tasks1</p>
-<pre class="r"><code>#download.file(&quot;http://www-bcf.usc.edu/~gareth/ISL/Auto.csv&quot;,destfile=&quot;Auto.csv&quot;)</code></pre>
+<pre class="r"><code>download.file(&quot;http://www-bcf.usc.edu/~gareth/ISL/Auto.csv&quot;,destfile=&quot;Auto.csv&quot;)</code></pre>
 <pre class="r"><code>auto_file_name&lt;-&quot;/home/local/MAC/yli5/math253-assignment/Auto.csv&quot;</code></pre>
 <p>[1] “/home/local/MAC/yli5/math253-assignment/Auto.csv”</p>
 <p>Task2</p>
@@ -158,15 +158,8 @@ $(document).ready(function () {
 <pre class="r"><code>task5top&lt;-Auto[1:5,1:3]
 task5bottom&lt;-Auto[nrow(Auto)-0:4,ncol(Auto)-0:2]</code></pre>
 <pre class="r"><code>devtools::install_github(&quot;dtkaplan/Math-253/DailyProgrammingTasks/scoreActivity&quot;)</code></pre>
-<pre><code>## Downloading GitHub repo dtkaplan/Math-253@master
-## from URL https://api.github.com/repos/dtkaplan/Math-253/zipball/master</code></pre>
-<pre><code>## Installing scoreActivity</code></pre>
-<pre><code>## '/usr/lib64/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-##   --quiet CMD INSTALL  \
-##   '/tmp/Rtmp2mqFUI/devtools7c8b4bc8f39b/dtkaplan-Math-253-a8d6128/DailyProgrammingTasks/scoreActivity'  \
-##   --library='/home/local/MAC/yli5/R/library' --install-tests</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## Reloading installed scoreActivity</code></pre>
+<pre><code>## Skipping install of 'scoreActivity' from a github remote, the SHA1 (a8d6128a) has not changed since last install.
+##   Use `force = TRUE` to force installation</code></pre>
 </div>
 </div>
 
