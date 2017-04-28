@@ -8,4 +8,55 @@ Your work goes here ...
 
 ```{r}
 scoreActivity::score253(10)
+library(ISLR)
+data(Default)
 ```
+
+```{r}
+logistic=function(x){
+  exp(x)/(1+exp(x))
+}
+```
+
+```{r}
+linear_combine=function(data,coefs){
+  result = 0
+for (nm in names(coefs)) {
+  if(is.null(nm)){
+    stop
+  }
+  if (nm == "intercept") {
+    result <- result + coefs[[nm]]
+  } else {
+    result <- result + coefs[[nm]] * data[[nm]]
+  }
+}
+  return(result)
+}
+```
+
+```{r}
+LL_logistic=function(data,coefs,outcome){
+  outcome_statement <- substitute(outcome)
+  outcome <- eval(outcome_statement, envir = data)
+  number=linear_combine(data,coefs)
+  pi=logistic(number)
+  pi[outcome=TRUE]=pi
+  pi[outcome=FALSE]=1-pi
+  return(sum(log(pi)))  
+  
+}
+```
+
+
+
+```{r}
+newll=function(coef){
+  LL_logistic(data=Default,coef=coef,outcome =Default$default == "Yes")
+}
+best_coefs=optim(c(intercept = 1, income = -0.0001),newll) 
+```
+
+
+
+
