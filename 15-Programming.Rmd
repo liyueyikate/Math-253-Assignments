@@ -9,3 +9,96 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(15)
 ```
+
+
+
+
+
+
+
+
+```{r}
+download.file("http://tiny.cc/dcf/mona.rda",destfile = "mona.rda")
+load("mona.rda")
+```
+
+```{r}
+X <- t(mona) - mean(mona[])
+```
+
+```{r}
+X_rand=matrix(rnorm(nrow(X)*ncol(X),0,1),nrow=nrow(X),ncol = ncol(X))
+```
+
+
+
+```{r}
+X_corr=X_rand%*%chol(var(X))
+```
+
+
+```{r}
+beta=rep(0,191)
+nonzero=sample(1:191,16)
+beta[nonzero]=sample(c(2,5,-3,-4), size =16,replace = TRUE)
+```
+
+
+```{r}
+Y_pure=X%*%beta
+Y_real=Y_pure+matrix(rnorm(nrow(Y_pure)*ncol(Y_pure),0,0.1*var(Y_pure)),nrow=nrow(Y_pure),ncol = ncol(Y_pure))
+```
+Least squares
+```{r}
+mod=lm(Y_pure~X)
+beta_hat_pure=coef(mod)[-1]
+plot(beta_hat_pure~beta)
+```
+```{r}
+mod2=lm(Y_real~X)
+beta_hat_real=coef(mod2)[-1]
+plot(beta_hat_real,beta)
+```
+The lasso estimator
+```{r}
+library(glmnet)
+lasso_mod <- cv.glmnet(X, Y_real, alpha=1)
+beta_lasso <- predict(lasso_mod, type = "coefficients", s = lasso_mod$lambda.min)
+```
+
+Principal components
+
+```{r}
+sing_vals <- svd(X)$d
+R2X=cumsum(sing_vals^2)/sum(sing_vals^2)
+sing_vals2 <- svd(X_rand)$d
+R2XR=cumsum(sing_vals2^2)/sum(sing_vals2^2)
+sing_vals3 <- svd(X_corr)$d
+R2XC=cumsum(sing_vals3^2)/sum(sing_vals3^2)
+k=seq(1:191)
+plot(k,R2X,col="black",type="l")
+lines(k,R2XR,col="red")
+lines(k,R2XC,col="yellow")
+```
+
+
+
+
+```{r}
+n99=27
+n99_rand=163
+n99_corr=27
+
+```
+
+
+
+```{r}
+library(pls)
+pcr.fit <- pcr(Y_real ~ X, scale = TRUE, validation="CV") 
+R2(pcr.fit)
+```
+
+
+
+
