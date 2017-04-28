@@ -9,3 +9,51 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(11)
 ```
+
+
+```{r}
+Sigma=rbind(c(1.0,-0.7),c(-0.7,1.0))
+Sigma_inv=solve(Sigma)
+test_inverse=Sigma%*%Sigma_inv
+```
+
+
+
+
+
+```{r}
+A=chol(Sigma)
+t(A)
+t(A)%*%A
+```
+
+
+```{r}
+x1=rnorm(10)
+x2=rnorm(10)
+x1=cbind(x1)
+x2=cbind(x2)
+ t(x1) %*% x2
+ X=cbind(x1,x2)
+ coOfX=t(X)%*%X/nrow(X)
+```
+```{r}
+w1=rnorm(10000)
+w2=rnorm(10000)
+w1=cbind(w1)
+w2=cbind(w2)
+ W=cbind(w1,w2)
+W_cov=t(W)%*%W/nrow(W)
+```
+
+
+```{r}
+A_inv=chol(solve(Sigma))
+Y=X%*%A
+Y=W%*%A
+```
+
+```{r}
+plot(Y[,2],Y[,1],col = rgb(0, 0, 0, .05))
+```
+
