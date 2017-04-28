@@ -9,3 +9,36 @@ Your work goes here ...
 ```{r}
 scoreActivity::score253(13)
 ```
+
+
+```{r}
+k_fold1 <- function(formula, method = lm, data = mtcars, predfun = predict, k = 10) {
+  n=nrow(data)
+  sets <- (1:n %% k) + 1
+  mspe <- numeric(k)
+  for (i in 1:k) {
+    
+    For_Testing=data[i==sets,]
+    For_Training= data[!i==sets,] 
+  
+  mod = method(formula,data=For_Training)
+  pred_vals = predfun(mod, newdata = For_Testing)
+  mspe[i] = mean((For_Testing[[as.character(formula[[2]])]] - pred_vals)^2 )#Your statements go here
+ }
+  error_estimate=mean(mspe)
+  
+  return(error_estimate)
+}
+
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+
