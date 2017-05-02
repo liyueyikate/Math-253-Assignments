@@ -1,2 +1,171 @@
 # Topic 4 Exercises: Classification
 
+1. 4.7.1
+$$p(X)=\frac{e^{\beta_0+\beta_1X}}{1+e^{beta_0+beta_1X}}$$
+$$e^{\beta_0+\beta_1X}(1-p(X))=p(X)$$
+$$e^{\beta_0+\beta_1X}=\frac{p(X)}{ (1-p(X))}$$
+
+2. 4.7.8
+The logistic regression is better. For KNN with K=1, the training error rate is 0 which implies that the test error rate is 0.36: higher than logistic regression.
+
+3. 4.7.9
+(a)
+$$\frac{p(X)}{ (1-p(X))}=0.37$$
+
+$$p(X)=0.27$$
+
+(b)
+$$\frac{0.16}{1-0.16}=0.19$$
+
+
+
+4.4.7.11
+```{r}
+library(ISLR)
+library(MASS)
+attach(ISLR::Auto)
+mpg01 <- rep(0, length(Auto$mpg))
+mpg01[mpg > median(mpg)] <- 1
+Auto <- data.frame(Auto, mpg01)
+```
+
+
+```{r}
+
+cor(Auto[, 1],Auto[, 2])
+cor(Auto[, 1],Auto[, 3])
+#cor(Auto[, 1],Auto[, 4])
+cor(Auto[, 1],Auto[, 5])
+cor(Auto[, 1],Auto[, 6])
+cor(Auto[, 1],Auto[, 7])
+cor(Auto[, 1],Auto[, 8])
+#cor(Auto[, 1],Auto[, 9])
+cor(Auto[, 3],Auto[, 2])
+#cor(Auto[, 4],Auto[, 2])
+cor(Auto[, 5],Auto[, 2])
+cor(Auto[, 6],Auto[, 2])
+cor(Auto[, 7],Auto[, 2])
+cor(Auto[, 8],Auto[, 2])
+#cor(Auto[, 9],Auto[, 2])
+#cor(Auto[, 3],Auto[, 4])
+cor(Auto[, 3],Auto[, 5])
+cor(Auto[, 3],Auto[, 6])
+cor(Auto[, 3],Auto[, 7])
+cor(Auto[, 3],Auto[, 8])
+#cor(Auto[, 3],Auto[, 9])
+cor(Auto[, 6],Auto[, 5])
+cor(Auto[, 7],Auto[, 5])
+cor(Auto[, 8],Auto[, 5])
+#cor(Auto[, 9],Auto[, 5])
+cor(Auto[, 6],Auto[, 7])
+cor(Auto[, 6],Auto[, 8])
+#cor(Auto[, 6],Auto[, 9])
+cor(Auto[, 8],Auto[, 7])
+#cor(Auto[, 9],Auto[, 7])
+#cor(Auto[, 8],Auto[, 9])
+```
+
+
+There exists some association between “mpg01” and “cylinders”, “weight”, “displacement” and “horsepower”
+
+
+
+```{r}
+train <- (year %% 2 == 0)
+Auto.train <- Auto[train, ]
+Auto.test <- Auto[!train, ]
+mpg01.test <- mpg01[!train]
+```
+
+```{r}
+fit.lda=lda(mpg01~cylinders+weight+displacement,data = Auto, subset = train)
+```
+ Test error rate is 12.6373626%.
+ 
+ 
+```{r}
+fit.qda=qda(mpg01 ~ cylinders + weight + displacement, data = Auto, subset = train)
+```
+test error rate is 13.1868132%
+
+```{r}
+fit.glm <- glm(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto, family = binomial, subset = train)
+summary(fit.glm)
+```
+
+
+```{r}
+train.X <- cbind(cylinders, weight, displacement, horsepower)[train, ]
+test.X <- cbind(cylinders, weight, displacement, horsepower)[!train, ]
+train.mpg01 <- mpg01[train]
+set.seed(1)
+pred.knn <- class::knn(train.X, test.X, train.mpg01, k = 1)
+table(pred.knn, mpg01.test)
+mean(pred.knn != mpg01.test)
+pred.knn <- class::knn(train.X, test.X, train.mpg01, k = 10)
+table(pred.knn, mpg01.test)
+mean(pred.knn != mpg01.test)
+```
+
+
+```{r}
+pred.knn <- class::knn(train.X, test.X, train.mpg01, k = 100)
+table(pred.knn, mpg01.test)
+```
+
+
+```{r}
+library(MASS)
+attach(Boston)
+crim01 <- rep(0, length(crim))
+crim01[crim > median(crim)] <- 1
+Boston <- data.frame(Boston, crim01)
+
+train <- 1:(length(crim) / 2)
+test <- (length(crim) / 2 + 1):length(crim)
+Boston.train <- Boston[train, ]
+Boston.test <- Boston[test, ]
+crim01.test <- crim01[test]
+
+fit.glm <- glm(crim01 ~ . - crim01 - crim, data = Boston, family = binomial, subset = train)
+probs <- predict(fit.glm, Boston.test, type = "response")
+pred.glm <- rep(0, length(probs))
+pred.glm[probs > 0.5] <- 1
+table(pred.glm, crim01.test)
+mean(pred.glm != crim01.test)
+```
+
+logistic regression: test error rate is 18.1818182%.
+
+```{r}
+fit.glm <- glm(crim01 ~ . - crim01 - crim - chas - nox, data = Boston, family = binomial, subset = train)
+probs <- predict(fit.glm, Boston.test, type = "response")
+pred.glm <- rep(0, length(probs))
+pred.glm[probs > 0.5] <- 1
+table(pred.glm, crim01.test)
+mean(pred.glm != crim01.test)
+fit.lda <- lda(crim01 ~ . - crim01 - crim, data = Boston, subset = train)
+pred.lda <- predict(fit.lda, Boston.test)
+table(pred.lda$class, crim01.test)
+mean(pred.lda$class != crim01.test)
+fit.lda <- lda(crim01 ~ . - crim01 - crim - chas - nox, data = Boston, subset = train)
+pred.lda <- predict(fit.lda, Boston.test)
+table(pred.lda$class, crim01.test)
+mean(pred.lda$class != crim01.test)
+```
+LDA: test error rate is 15.0197628%
+
+```{r}
+train.X <- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[train, ]
+test.X <- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[test, ]
+train.crim01 <- crim01[train]
+set.seed(1)
+pred.knn <- class::knn(train.X, test.X, train.crim01, k = 1)
+table(pred.knn, crim01.test)
+mean(pred.knn != crim01.test)
+
+
+```
+
+
+ KNN (k=1k=1): we have a test error rate of 45.8498024%.

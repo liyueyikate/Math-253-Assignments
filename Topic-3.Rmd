@@ -1,2 +1,9 @@
 # Topic 3 Exercises: Likelihood
-
+```{r}
+one<-runif(1000)
+two<-rpois(1000,lambda = 5)
+three<-one+two
+sd(one)
+sd(two)
+sd(three)
+```
