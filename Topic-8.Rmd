@@ -1,2 +1,81 @@
 # Topic 8 Exercises: Tree-based models
+2.
+let $f'(x)=0, r_i=y_i $
+$$f'^1(x)=c_iI(x_1<t_1)+c'=\frac{1}{\lambda}+c_1'=\frac{1}{\lambda}f_1(x_1)$$
+$$f'^2(x)=c_2I(x_2<t_2)+c_2'=\frac{1}{\lambda}+c'=\frac{1}{\lambda}f_2(x_2)$$
+$$f'(x)=\lambda f]^1(x)+\lambda f'^2$$ $$r_i=y_i-\lambda f^1(x_i) -\lambda f'^2(x_i)$$ for any i.
+
+3.
+
+```{r}
+p <- seq(0, 1, 0.01)
+gini.index <- 2 * p * (1 - p)
+class.error <- 1 - pmax(p, 1 - p)
+cross.entropy <- - (p * log(p) + (1 - p) * log(1 - p))
+matplot(p, cbind(gini.index, class.error, cross.entropy), col = c("orange", "red", "yellow"))
+```
+
+4.
+```{r}
+par(xpd = NA)
+plot(NA, NA, type = "n", xlim = c(-2, 2), ylim = c(-3, 3), xlab = "X1", ylab = "X2")
+# X2 < 1
+lines(x = c(-2, 2), y = c(1, 1))
+# X1 < 1 with X2 < 1
+lines(x = c(1, 1), y = c(-3, 1))
+text(x = (-2 + 1)/2, y = -1, labels = c(-1.8))
+text(x = 1.5, y = -1, labels = c(0.63))
+# X2 < 2 with X2 >= 1
+lines(x = c(-2, 2), y = c(2, 2))
+text(x = 0, y = 2.5, labels = c(2.49))
+# X1 < 0 with X2<2 and X2>=1
+lines(x = c(0, 0), y = c(1, 2))
+text(x = -1, y = 1.5, labels = c(-1.06))
+text(x = 1, y = 1.5, labels = c(0.21))
+```
+
+5.
+majority vote approach: classify XX as Red as it is the most commonly occurring class among the 10 predictions (6 for Red vs 4 for Green).\
+average probability approach: Green as the average of the 10 probabilities is 0.45.
+
+12.
+```{r}
+library(ISLR)
+data(Weekly)
+set.seed(1)
+train <- sample(nrow(Weekly), nrow(Weekly) / 2)
+Weekly$Direction <- ifelse(Weekly$Direction == "Up", 1, 0)
+Weekly.train <- Weekly[train, ]
+Weekly.test <- Weekly[-train, ]
+logit.fit <- glm(Direction ~ . - Year - Today, data = Weekly.train, family = "binomial")
+logit.probs <- predict(logit.fit, newdata = Weekly.test, type = "response")
+logit.pred <- ifelse(logit.probs > 0.5, 1, 0)
+table(Weekly.test$Direction, logit.pred)
+
+bag.fit <- randomForest::randomForest(Direction ~ . - Year - Today, data = Weekly.train, mtry = 6)
+bag.probs <- predict(bag.fit, newdata = Weekly.test)
+bag.pred <- ifelse(bag.probs > 0.5, 1, 0)
+table(Weekly.test$Direction, bag.pred)
+rf.fit <- randomForest::randomForest(Direction ~ . - Year - Today, data = Weekly.train, mtry = 2)
+rf.probs <- predict(rf.fit, newdata = Weekly.test)
+rf.pred <- ifelse(rf.probs > 0.5, 1, 0)
+table(Weekly.test$Direction, rf.pred)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
